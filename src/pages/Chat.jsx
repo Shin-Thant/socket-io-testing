@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import InputBar from "../components/InputBar";
 import Message from "../components/Message";
+import { messagesSelector } from "../features/usersSlice";
 import useCurrentChat from "../hooks/useCurrentChat";
 
 function Chat({ socket }) {
 	const { userId } = useCurrentChat();
-	const [messages, setMessages] = useState([]);
+	const initialMessages = useSelector(messagesSelector);
+	const [messages, setMessages] = useState([...initialMessages]);
 
 	// filter messages
 	const filteredMsgs = useMemo(() => {
-		// console.log("memo ran", { userId, from: socket.id });
-
 		const filtered = messages
 			.filter((msg) => {
 				return msg.userId === userId || msg.from === userId;
@@ -22,7 +23,6 @@ function Chat({ socket }) {
 
 	const sendMsg = useCallback(
 		(msg) => {
-			console.log("send", userId, socket.userId);
 			if (socket.connected) {
 				const newMsg = { id: Date.now(), msg };
 
@@ -62,8 +62,6 @@ function Chat({ socket }) {
 
 			// set 'sender' to 'true' if you recieve your msg
 			if (msg.from === socket.userId && msg.userId === userId) {
-				console.log("message from you");
-
 				filteredMsgs.push({ ...recievedMsg });
 			}
 

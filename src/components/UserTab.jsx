@@ -5,7 +5,6 @@ const UserTab = ({ user }) => {
 	const { userId, setUserId } = useCurrentChat();
 
 	const setCurrentChat = () => {
-		console.log("clicked", user.userId);
 		setUserId(user?.userId);
 	};
 
@@ -24,7 +23,7 @@ const UserTab = ({ user }) => {
 				{user?.active ? "online" : "offline"}
 			</div>
 
-			<h4>{user?.recieved || 0}</h4>
+			{/* <h4>{user?.recieved || 0}</h4> */}
 		</div>
 	);
 };

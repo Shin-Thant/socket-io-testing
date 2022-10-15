@@ -84,8 +84,6 @@ function Home() {
 		};
 
 		const handleNewUser = (newUser) => {
-			console.log("connected", newUser);
-
 			if (newUser.userId !== socket.userId) {
 				dispatch(onUserConnected({ newUser }));
 			}
